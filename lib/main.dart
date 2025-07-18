@@ -187,8 +187,273 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
     },
   };
 
+  // Language-specific date formats
+  final Map<String, Map<String, dynamic>> _dateFormats = {
+    'English': {
+      'weekdays': ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      'months': [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ],
+      'format': 'MM/dd/yyyy',
+    },
+    '한국어': {
+      'weekdays': ['월', '화', '수', '목', '금', '토', '일'],
+      'months': [
+        '1월',
+        '2월',
+        '3월',
+        '4월',
+        '5월',
+        '6월',
+        '7월',
+        '8월',
+        '9월',
+        '10월',
+        '11월',
+        '12월',
+      ],
+      'format': 'yyyy. M. d.',
+    },
+    '日本語': {
+      'weekdays': ['月', '火', '水', '木', '金', '土', '日'],
+      'months': [
+        '1月',
+        '2月',
+        '3月',
+        '4月',
+        '5月',
+        '6月',
+        '7月',
+        '8月',
+        '9月',
+        '10月',
+        '11月',
+        '12月',
+      ],
+      'format': 'yyyy年M月d日',
+    },
+    '中文': {
+      'weekdays': ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+      'months': [
+        '1月',
+        '2月',
+        '3月',
+        '4月',
+        '5月',
+        '6月',
+        '7月',
+        '8月',
+        '9月',
+        '10月',
+        '11月',
+        '12月',
+      ],
+      'format': 'yyyy年M月d日',
+    },
+    'Español': {
+      'weekdays': ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+      'months': [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre',
+      ],
+      'format': 'dd/MM/yyyy',
+    },
+    'Português': {
+      'weekdays': ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+      'months': [
+        'Janeiro',
+        'Fevereiro',
+        'Março',
+        'Abril',
+        'Maio',
+        'Junho',
+        'Julho',
+        'Agosto',
+        'Setembro',
+        'Outubro',
+        'Novembro',
+        'Dezembro',
+      ],
+      'format': 'dd/MM/yyyy',
+    },
+    'Français': {
+      'weekdays': ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+      'months': [
+        'Janvier',
+        'Février',
+        'Mars',
+        'Avril',
+        'Mai',
+        'Juin',
+        'Juillet',
+        'Août',
+        'Septembre',
+        'Octobre',
+        'Novembre',
+        'Décembre',
+      ],
+      'format': 'dd/MM/yyyy',
+    },
+    'Tiếng Việt': {
+      'weekdays': ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+      'months': [
+        'Tháng 1',
+        'Tháng 2',
+        'Tháng 3',
+        'Tháng 4',
+        'Tháng 5',
+        'Tháng 6',
+        'Tháng 7',
+        'Tháng 8',
+        'Tháng 9',
+        'Tháng 10',
+        'Tháng 11',
+        'Tháng 12',
+      ],
+      'format': 'dd/MM/yyyy',
+    },
+    'ไทย': {
+      'weekdays': ['จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.', 'อา.'],
+      'months': [
+        'มกราคม',
+        'กุมภาพันธ์',
+        'มีนาคม',
+        'เมษายน',
+        'พฤษภาคม',
+        'มิถุนายน',
+        'กรกฎาคม',
+        'สิงหาคม',
+        'กันยายน',
+        'ตุลาคม',
+        'พฤศจิกายน',
+        'ธันวาคม',
+      ],
+      'format': 'd MMMM yyyy',
+    },
+    'Tagalog': {
+      'weekdays': ['Lun', 'Mar', 'Miy', 'Huw', 'Biy', 'Sab', 'Ling'],
+      'months': [
+        'Enero',
+        'Pebrero',
+        'Marso',
+        'Abril',
+        'Mayo',
+        'Hunyo',
+        'Hulyo',
+        'Agosto',
+        'Setyembre',
+        'Oktubre',
+        'Nobyembre',
+        'Disyembre',
+      ],
+      'format': 'MM/dd/yyyy',
+    },
+    'Bahasa Indonesia': {
+      'weekdays': ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+      'months': [
+        'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember',
+      ],
+      'format': 'dd/MM/yyyy',
+    },
+  };
+
   String _t(String key) {
     return _translations[widget.currentLanguage]?[key] ?? key;
+  }
+
+  String _formatDate(DateTime date) {
+    final dateFormat = _dateFormats[widget.currentLanguage];
+    if (dateFormat == null) {
+      // Fallback to English format
+      final weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      final months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ];
+      final weekday = weekdays[date.weekday - 1];
+      final month = months[date.month - 1];
+      return '$month ${date.day}, ${date.year} ($weekday)';
+    }
+
+    final weekdays = dateFormat['weekdays'] as List<String>;
+    final months = dateFormat['months'] as List<String>;
+    final format = dateFormat['format'] as String;
+
+    final weekday = weekdays[date.weekday - 1];
+    final month = months[date.month - 1];
+
+    // Custom formatting based on language
+    switch (widget.currentLanguage) {
+      case '한국어':
+        return '${date.year}. ${date.month}. ${date.day}.($weekday)';
+      case '日本語':
+        return '${date.year}年${date.month}月${date.day}日($weekday)';
+      case '中文':
+        return '${date.year}年${date.month}月${date.day}日($weekday)';
+      case 'Español':
+        return '${date.day} de $month de ${date.year} ($weekday)';
+      case 'Português':
+        return '${date.day} de $month de ${date.year} ($weekday)';
+      case 'Français':
+        return '${date.day} $month ${date.year} ($weekday)';
+      case 'Tiếng Việt':
+        return '${date.day}/${date.month}/${date.year} ($weekday)';
+      case 'ไทย':
+        return '${date.day} $month ${date.year} ($weekday)';
+      case 'Tagalog':
+        return '${date.month}/${date.day}/${date.year} ($weekday)';
+      case 'Bahasa Indonesia':
+        return '${date.day} $month ${date.year} ($weekday)';
+      default:
+        return '$month ${date.day}, ${date.year} ($weekday)';
+    }
+  }
+
+  String _getDateFormat() {
+    final dateFormat = _dateFormats[widget.currentLanguage];
+    return dateFormat?['format'] as String? ?? 'MM/dd/yyyy';
   }
 
   @override
@@ -267,27 +532,6 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
     anniversaries.sort((a, b) => a.targetDate.compareTo(b.targetDate));
 
     return anniversaries;
-  }
-
-  String _formatDate(DateTime date) {
-    final weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    final months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    final weekday = weekdays[date.weekday - 1];
-    final month = months[date.month - 1];
-    return '$month ${date.day}, ${date.year} ($weekday)';
   }
 
   @override
@@ -387,7 +631,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                               Text(
                                 selectedDate != null
                                     ? DateFormat(
-                                        'MM/dd/yyyy',
+                                        _getDateFormat(),
                                       ).format(selectedDate!)
                                     : _t('selectDate'),
                                 style: TextStyle(
