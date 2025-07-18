@@ -5,8 +5,21 @@ void main() {
   runApp(const DDayCalculatorApp());
 }
 
-class DDayCalculatorApp extends StatelessWidget {
+class DDayCalculatorApp extends StatefulWidget {
   const DDayCalculatorApp({super.key});
+
+  @override
+  State<DDayCalculatorApp> createState() => _DDayCalculatorAppState();
+}
+
+class _DDayCalculatorAppState extends State<DDayCalculatorApp> {
+  String _currentLanguage = 'English';
+
+  void _changeLanguage(String language) {
+    setState(() {
+      _currentLanguage = language;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +33,23 @@ class DDayCalculatorApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const DDayCalculatorPage(),
+      home: DDayCalculatorPage(
+        onLanguageChanged: _changeLanguage,
+        currentLanguage: _currentLanguage,
+      ),
     );
   }
 }
 
 class DDayCalculatorPage extends StatefulWidget {
-  const DDayCalculatorPage({super.key});
+  final Function(String) onLanguageChanged;
+  final String currentLanguage;
+
+  const DDayCalculatorPage({
+    super.key,
+    required this.onLanguageChanged,
+    required this.currentLanguage,
+  });
 
   @override
   State<DDayCalculatorPage> createState() => _DDayCalculatorPageState();
@@ -36,6 +59,137 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
   DateTime? selectedDate;
   final TextEditingController _titleController = TextEditingController();
   final List<DDayEvent> _events = [];
+
+  final Map<String, Locale> _languages = {
+    'English': const Locale('en'),
+    '한국어': const Locale('ko'),
+    '日本語': const Locale('ja'),
+    '中文': const Locale('zh'),
+    'Español': const Locale('es'),
+    'Português': const Locale('pt'),
+    'Français': const Locale('fr'),
+    'Tiếng Việt': const Locale('vi'),
+    'ไทย': const Locale('th'),
+    'Tagalog': const Locale('tl'),
+    'Bahasa Indonesia': const Locale('id'),
+  };
+
+  final Map<String, Map<String, String>> _translations = {
+    'English': {
+      'appTitle': 'D-DAY CALCULATOR',
+      'addNewDday': 'Add New D-Day',
+      'title': 'Title',
+      'selectDate': 'Select Date',
+      'create': 'Create',
+      'addDdayEvent': 'Add a D-Day event!',
+      'anniversaries': 'Anniversaries',
+      'delete': 'Delete',
+    },
+    '한국어': {
+      'appTitle': '디데이 계산기',
+      'addNewDday': '새 디데이 추가',
+      'title': '제목',
+      'selectDate': '날짜 선택',
+      'create': '생성',
+      'addDdayEvent': '디데이를 추가해보세요!',
+      'anniversaries': '기념일',
+      'delete': '삭제',
+    },
+    '日本語': {
+      'appTitle': 'D-DAY計算機',
+      'addNewDday': '新しいD-DAYを追加',
+      'title': 'タイトル',
+      'selectDate': '日付を選択',
+      'create': '作成',
+      'addDdayEvent': 'D-DAYイベントを追加してください！',
+      'anniversaries': '記念日',
+      'delete': '削除',
+    },
+    '中文': {
+      'appTitle': 'D日计算器',
+      'addNewDday': '添加新的D日',
+      'title': '标题',
+      'selectDate': '选择日期',
+      'create': '创建',
+      'addDdayEvent': '添加一个D日事件！',
+      'anniversaries': '纪念日',
+      'delete': '删除',
+    },
+    'Español': {
+      'appTitle': 'CALCULADORA D-DAY',
+      'addNewDday': 'Agregar Nuevo D-Day',
+      'title': 'Título',
+      'selectDate': 'Seleccionar Fecha',
+      'create': 'Crear',
+      'addDdayEvent': '¡Agrega un evento D-Day!',
+      'anniversaries': 'Aniversarios',
+      'delete': 'Eliminar',
+    },
+    'Português': {
+      'appTitle': 'CALCULADORA D-DAY',
+      'addNewDday': 'Adicionar Novo D-Day',
+      'title': 'Título',
+      'selectDate': 'Selecionar Data',
+      'create': 'Criar',
+      'addDdayEvent': 'Adicione um evento D-Day!',
+      'anniversaries': 'Aniversários',
+      'delete': 'Excluir',
+    },
+    'Français': {
+      'appTitle': 'CALCULATRICE D-DAY',
+      'addNewDday': 'Ajouter un Nouveau D-Day',
+      'title': 'Titre',
+      'selectDate': 'Sélectionner la Date',
+      'create': 'Créer',
+      'addDdayEvent': 'Ajoutez un événement D-Day !',
+      'anniversaries': 'Anniversaires',
+      'delete': 'Supprimer',
+    },
+    'Tiếng Việt': {
+      'appTitle': 'MÁY TÍNH D-DAY',
+      'addNewDday': 'Thêm D-Day Mới',
+      'title': 'Tiêu đề',
+      'selectDate': 'Chọn Ngày',
+      'create': 'Tạo',
+      'addDdayEvent': 'Thêm một sự kiện D-Day!',
+      'anniversaries': 'Kỷ niệm',
+      'delete': 'Xóa',
+    },
+    'ไทย': {
+      'appTitle': 'เครื่องคำนวณ D-DAY',
+      'addNewDday': 'เพิ่ม D-Day ใหม่',
+      'title': 'หัวข้อ',
+      'selectDate': 'เลือกวันที่',
+      'create': 'สร้าง',
+      'addDdayEvent': 'เพิ่มเหตุการณ์ D-Day!',
+      'anniversaries': 'วันครบรอบ',
+      'delete': 'ลบ',
+    },
+    'Tagalog': {
+      'appTitle': 'D-DAY CALCULATOR',
+      'addNewDday': 'Magdagdag ng Bagong D-Day',
+      'title': 'Pamagat',
+      'selectDate': 'Pumili ng Petsa',
+      'create': 'Gumawa',
+      'addDdayEvent': 'Magdagdag ng D-Day event!',
+      'anniversaries': 'Mga Anibersaryo',
+      'delete': 'Tanggalin',
+    },
+    'Bahasa Indonesia': {
+      'appTitle': 'KALKULATOR D-DAY',
+      'addNewDday': 'Tambah D-Day Baru',
+      'title': 'Judul',
+      'selectDate': 'Pilih Tanggal',
+      'create': 'Buat',
+      'addDdayEvent': 'Tambahkan acara D-Day!',
+      'anniversaries': 'Hari Jadi',
+      'delete': 'Hapus',
+    },
+  };
+
+  String _t(String key) {
+    return _translations[widget.currentLanguage]?[key] ?? key;
+  }
 
   @override
   void initState() {
@@ -140,9 +294,9 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'D-DAY CALCULATOR',
-          style: TextStyle(
+        title: Text(
+          _t('appTitle'),
+          style: const TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
             fontFamily: 'HYHeadlineM',
@@ -151,6 +305,22 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
         ),
         backgroundColor: Colors.green,
         elevation: 2,
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.language, color: Colors.white),
+            onSelected: (String language) {
+              widget.onLanguageChanged(language);
+            },
+            itemBuilder: (BuildContext context) {
+              return _languages.keys.map((String language) {
+                return PopupMenuItem<String>(
+                  value: language,
+                  child: Text(language),
+                );
+              }).toList();
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
@@ -165,9 +335,9 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Add New D-Day',
-                      style: TextStyle(
+                    Text(
+                      _t('addNewDday'),
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -179,10 +349,10 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                         controller: _titleController,
                         textAlign: TextAlign.center,
                         style: const TextStyle(color: Colors.black),
-                        decoration: const InputDecoration(
-                          labelText: 'Title',
-                          labelStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          labelText: _t('title'),
+                          labelStyle: const TextStyle(color: Colors.grey),
+                          border: const OutlineInputBorder(),
                           alignLabelWithHint: true,
                         ),
                       ),
@@ -219,7 +389,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                     ? DateFormat(
                                         'MM/dd/yyyy',
                                       ).format(selectedDate!)
-                                    : 'Select Date',
+                                    : _t('selectDate'),
                                 style: TextStyle(
                                   color: selectedDate != null
                                       ? Colors.black
@@ -237,7 +407,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                       child: ElevatedButton.icon(
                         onPressed: _addEvent,
                         icon: const Icon(Icons.add),
-                        label: const Text('Create'),
+                        label: Text(_t('create')),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(16),
                         ),
@@ -251,15 +421,22 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
             // D-Day List
             Expanded(
               child: _events.isEmpty
-                  ? const Center(
+                  ? Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.event_note, size: 64, color: Colors.grey),
-                          SizedBox(height: 16),
+                          const Icon(
+                            Icons.event_note,
+                            size: 64,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(height: 16),
                           Text(
-                            'Add a D-Day event!',
-                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                            _t('addDdayEvent'),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey,
+                            ),
                           ),
                         ],
                       ),
@@ -371,9 +548,9 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const Text(
-                                    'Anniversaries',
-                                    style: TextStyle(
+                                  Text(
+                                    _t('anniversaries'),
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                     ),

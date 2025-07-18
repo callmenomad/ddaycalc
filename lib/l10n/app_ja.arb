@@ -1,0 +1,11 @@
+{
+  "appTitle": "D-DAY計算機",
+  "addNewDday": "新しいD-DAYを追加",
+  "title": "タイトル",
+  "selectDate": "日付を選択",
+  "create": "作成",
+  "addDdayEvent": "D-DAYイベントを追加してください！",
+  "anniversaries": "記念日",
+  "delete": "削除",
+  "language": "言語"
+} 
