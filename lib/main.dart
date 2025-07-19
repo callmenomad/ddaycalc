@@ -919,69 +919,15 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                     ],
                   ),
                 ),
-                // Custom Date Picker
+                // Custom Date Picker with language-specific order
                 Expanded(
-                  child: Row(
-                    children: [
-                      // Day Picker
-                      Expanded(
-                        child: CupertinoPicker(
-                          itemExtent: 40,
-                          scrollController: FixedExtentScrollController(
-                            initialItem: selectedDay - 1,
-                          ),
-                          onSelectedItemChanged: (int index) {
-                            selectedDay = index + 1;
-                          },
-                          children: List.generate(31, (index) {
-                            return Center(
-                              child: Text(
-                                '${index + 1}',
-                                style: const TextStyle(fontSize: 18),
-                              ),
-                            );
-                          }),
-                        ),
-                      ),
-                      // Month Picker
-                      Expanded(
-                        child: CupertinoPicker(
-                          itemExtent: 40,
-                          scrollController: FixedExtentScrollController(
-                            initialItem: selectedMonth - 1,
-                          ),
-                          onSelectedItemChanged: (int index) {
-                            selectedMonth = index + 1;
-                          },
-                          children: _getMonthNames().map((month) => Center(
-                            child: Text(
-                              month,
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                          )).toList(),
-                        ),
-                      ),
-                      // Year Picker
-                      Expanded(
-                        child: CupertinoPicker(
-                          itemExtent: 40,
-                          scrollController: FixedExtentScrollController(
-                            initialItem: selectedYear - 1900,
-                          ),
-                          onSelectedItemChanged: (int index) {
-                            selectedYear = 1900 + index;
-                          },
-                          children: List.generate(301, (index) {
-                            return Center(
-                              child: Text(
-                                '${1900 + index}',
-                                style: const TextStyle(fontSize: 18),
-                              ),
-                            );
-                          }),
-                        ),
-                      ),
-                    ],
+                  child: _buildDatePickerRow(
+                    selectedDay: selectedDay,
+                    selectedMonth: selectedMonth,
+                    selectedYear: selectedYear,
+                    onDayChanged: (int day) => selectedDay = day,
+                    onMonthChanged: (int month) => selectedMonth = month,
+                    onYearChanged: (int year) => selectedYear = year,
                   ),
                 ),
               ],
@@ -989,6 +935,114 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildDatePickerRow({
+    required int selectedDay,
+    required int selectedMonth,
+    required int selectedYear,
+    required Function(int) onDayChanged,
+    required Function(int) onMonthChanged,
+    required Function(int) onYearChanged,
+  }) {
+    // Determine picker order based on language
+    List<Widget> pickers = [];
+    
+    switch (widget.currentLanguage) {
+      case '한국어':
+      case '日本語':
+      case '中文':
+        // Year → Month → Day (Asian format)
+        pickers = [
+          _buildYearPicker(selectedYear, onYearChanged),
+          _buildMonthPicker(selectedMonth, onMonthChanged),
+          _buildDayPicker(selectedDay, onDayChanged),
+        ];
+        break;
+      case 'English':
+      case 'Tagalog':
+        // Month → Day → Year (US format)
+        pickers = [
+          _buildMonthPicker(selectedMonth, onMonthChanged),
+          _buildDayPicker(selectedDay, onDayChanged),
+          _buildYearPicker(selectedYear, onYearChanged),
+        ];
+        break;
+      default:
+        // Day → Month → Year (European format)
+        pickers = [
+          _buildDayPicker(selectedDay, onDayChanged),
+          _buildMonthPicker(selectedMonth, onMonthChanged),
+          _buildYearPicker(selectedYear, onYearChanged),
+        ];
+        break;
+    }
+    
+    return Row(children: pickers);
+  }
+
+  Widget _buildDayPicker(int selectedDay, Function(int) onChanged) {
+    return Expanded(
+      child: CupertinoPicker(
+        itemExtent: 40,
+        scrollController: FixedExtentScrollController(
+          initialItem: selectedDay - 1,
+        ),
+        onSelectedItemChanged: (int index) {
+          onChanged(index + 1);
+        },
+        children: List.generate(31, (index) {
+          return Center(
+            child: Text(
+              '${index + 1}',
+              style: const TextStyle(fontSize: 18),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
+  Widget _buildMonthPicker(int selectedMonth, Function(int) onChanged) {
+    return Expanded(
+      child: CupertinoPicker(
+        itemExtent: 40,
+        scrollController: FixedExtentScrollController(
+          initialItem: selectedMonth - 1,
+        ),
+        onSelectedItemChanged: (int index) {
+          onChanged(index + 1);
+        },
+        children: _getMonthNames().map((month) => Center(
+          child: Text(
+            month,
+            style: const TextStyle(fontSize: 18),
+          ),
+        )).toList(),
+      ),
+    );
+  }
+
+  Widget _buildYearPicker(int selectedYear, Function(int) onChanged) {
+    return Expanded(
+      child: CupertinoPicker(
+        itemExtent: 40,
+        scrollController: FixedExtentScrollController(
+          initialItem: selectedYear - 1900,
+        ),
+        onSelectedItemChanged: (int index) {
+          onChanged(1900 + index);
+        },
+        children: List.generate(301, (index) {
+          return Center(
+            child: Text(
+              '${1900 + index}',
+              style: const TextStyle(fontSize: 18),
+            ),
+          );
+        }),
+      ),
     );
   }
 
