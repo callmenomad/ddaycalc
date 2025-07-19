@@ -795,7 +795,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 4),
+                                      const SizedBox(width: 0),
                                       IconButton(
                                         onPressed: () => _removeEvent(index),
                                         icon: const Icon(
