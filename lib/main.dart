@@ -624,20 +624,28 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                             border: Border.all(color: Colors.grey),
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: Row(
+                          child: Stack(
                             children: [
-                              const Icon(Icons.calendar_month),
-                              const SizedBox(width: 120),
-                              Text(
-                                selectedDate != null
-                                    ? DateFormat(
-                                        _getDateFormat(),
-                                      ).format(selectedDate!)
-                                    : _t('selectDate'),
-                                style: TextStyle(
-                                  color: selectedDate != null
-                                      ? Colors.black
-                                      : Colors.grey,
+                              // Calendar icon positioned on the left
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                bottom: 0,
+                                child: const Icon(Icons.calendar_month),
+                              ),
+                              // Text centered in the container
+                              Center(
+                                child: Text(
+                                  selectedDate != null
+                                      ? DateFormat(
+                                          _getDateFormat(),
+                                        ).format(selectedDate!)
+                                      : _t('selectDate'),
+                                  style: TextStyle(
+                                    color: selectedDate != null
+                                        ? Colors.black
+                                        : Colors.grey,
+                                  ),
                                 ),
                               ),
                             ],
