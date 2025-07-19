@@ -728,9 +728,12 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                     ),
                                   ],
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                  child: Row(
+                                child: Center(
+                                  child: SizedBox(
+                                    width: 400,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                      child: Row(
                                     children: [
                                       CircleAvatar(
                                         backgroundColor: isToday
@@ -745,7 +748,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                           color: Colors.white,
                                         ),
                                       ),
-                                      const SizedBox(width: 4),
+                                      const SizedBox(width: 16),
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -805,16 +808,22 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                       ),
                                     ],
                                   ),
+                                  ),
                                 ),
+                              ),
+                            ),
                               ),
                             ),
                           ),
                           // Anniversary Content
                           SliverToBoxAdapter(
-                            child: Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(color: Colors.grey[50]),
-                              child: Column(
+                            child: Center(
+                              child: SizedBox(
+                                width: 400,
+                                child: Container(
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(color: Colors.grey[50]),
+                                  child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
@@ -840,8 +849,8 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                           bottom: 4,
                                         ),
                                         padding: const EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                          vertical: 6,
+                                          horizontal: 16,
+                                          vertical: 12,
                                         ),
                                         decoration: BoxDecoration(
                                           color: Colors.white,
@@ -938,8 +947,10 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                   ),
                                 ],
                               ),
+                              ),
                             ),
                           ),
+                        ),
                           // Add minimal spacing between D-Day items
                           SliverToBoxAdapter(
                             child: Container(
