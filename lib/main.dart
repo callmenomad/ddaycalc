@@ -821,6 +821,16 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
       lastDate: DateTime(2200),
       locale: _getLocale(),
       initialDatePickerMode: DatePickerMode.day,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: Theme.of(context).colorScheme.copyWith(
+              primary: Colors.blue,
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     return pickedDate;
