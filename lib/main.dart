@@ -734,6 +734,87 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
     }
   }
 
+  String _getMonthSelectionTitle(int year) {
+    switch (widget.currentLanguage) {
+      case '한국어':
+        return '$year년 월 선택';
+      case '日本語':
+        return '$year年月選択';
+      case '中文':
+        return '$year年月选择';
+      case 'Español':
+        return 'Seleccionar Mes $year';
+      case 'Português':
+        return 'Selecionar Mês $year';
+      case 'Français':
+        return 'Sélectionner le Mois $year';
+      case 'Tiếng Việt':
+        return 'Chọn Tháng $year';
+      case 'ไทย':
+        return 'เลือกเดือน $year';
+      case 'Tagalog':
+        return 'Pumili ng Buwan $year';
+      case 'Bahasa Indonesia':
+        return 'Pilih Bulan $year';
+      default:
+        return 'Select Month $year';
+    }
+  }
+
+  String _getYearSelectionTitle() {
+    switch (widget.currentLanguage) {
+      case '한국어':
+        return '연도 선택';
+      case '日本語':
+        return '年選択';
+      case '中文':
+        return '年选择';
+      case 'Español':
+        return 'Seleccionar Año';
+      case 'Português':
+        return 'Selecionar Ano';
+      case 'Français':
+        return 'Sélectionner l\'Année';
+      case 'Tiếng Việt':
+        return 'Chọn Năm';
+      case 'ไทย':
+        return 'เลือกปี';
+      case 'Tagalog':
+        return 'Pumili ng Taon';
+      case 'Bahasa Indonesia':
+        return 'Pilih Tahun';
+      default:
+        return 'Select Year';
+    }
+  }
+
+  String _getYearName(int year) {
+    switch (widget.currentLanguage) {
+      case '한국어':
+        return '$year년';
+      case '日本語':
+        return '$year年';
+      case '中文':
+        return '$year年';
+      case 'Español':
+        return 'Año $year';
+      case 'Português':
+        return 'Ano $year';
+      case 'Français':
+        return 'Année $year';
+      case 'Tiếng Việt':
+        return 'Năm $year';
+      case 'ไทย':
+        return 'ปี $year';
+      case 'Tagalog':
+        return 'Taon $year';
+      case 'Bahasa Indonesia':
+        return 'Tahun $year';
+      default:
+        return 'Year $year';
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -813,7 +894,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
   }
 
   Future<DateTime?> _showCustomDatePicker() async {
-    // Use the default showDatePicker with improved navigation
+    // Start with day selection mode by using a custom approach
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate ?? DateTime.now(),
@@ -834,6 +915,88 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
     );
 
     return pickedDate;
+  }
+
+  // Alternative approach: Custom date picker with proper navigation
+  Future<DateTime?> _showCustomDatePickerWithNavigation() async {
+    DateTime currentDate = selectedDate ?? DateTime.now();
+    
+    // First, show day picker
+    final DateTime? dayPicked = await showDatePicker(
+      context: context,
+      initialDate: currentDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2200),
+      locale: _getLocale(),
+      initialDatePickerMode: DatePickerMode.day,
+    );
+
+    if (dayPicked == null) return null;
+
+    // Then, show month picker
+    final int? selectedMonth = await showDialog<int>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(_getMonthSelectionTitle(dayPicked.year)),
+          content: SizedBox(
+            width: 300,
+            height: 200,
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 2,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+              ),
+              itemCount: 12,
+              itemBuilder: (context, index) {
+                final month = index + 1;
+                final monthNames = _dateFormats[widget.currentLanguage]?['months'] as List<String>?;
+                final monthName = monthNames != null && month >= 1 && month <= 12 
+                    ? monthNames[month - 1] 
+                    : '$month';
+                
+                return ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(month),
+                  child: Text(monthName),
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+
+    if (selectedMonth == null) return dayPicked;
+
+    // Finally, show year picker
+    final int? selectedYear = await showDialog<int>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(_getYearSelectionTitle()),
+          content: SizedBox(
+            width: 300,
+            height: 200,
+            child: ListView.builder(
+              itemCount: 50,
+              itemBuilder: (context, index) {
+                final year = DateTime.now().year - 25 + index;
+                return ListTile(
+                  title: Text(_getYearName(year)),
+                  onTap: () => Navigator.of(context).pop(year),
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+
+    if (selectedYear == null) return DateTime(dayPicked.year, selectedMonth, dayPicked.day);
+
+    return DateTime(selectedYear, selectedMonth, dayPicked.day);
   }
 
 
@@ -913,7 +1076,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                           Expanded(
                             child: InkWell(
                               onTap: () async {
-                                final date = await _showCustomDatePicker();
+                                final date = await _showCustomDatePickerWithNavigation();
                                 if (date != null) {
                                   setState(() {
                                     selectedDate = date;
