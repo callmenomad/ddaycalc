@@ -693,274 +693,309 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                         ],
                       ),
                     )
-                  : CustomScrollView(
-                      slivers: _events
-                          .asMap()
-                          .entries
-                          .expand((entry) {
-                        final index = entry.key;
-                        final event = entry.value;
-                        final days = event.getDaysFromNow();
-                        final isPast = days < 0;
-                        final isToday = days == 0;
+                  : Stack(
+                      children: [
+                        CustomScrollView(
+                          slivers: _events
+                              .asMap()
+                              .entries
+                              .expand((entry) {
+                            final index = entry.key;
+                            final event = entry.value;
+                            final days = event.getDaysFromNow();
+                            final isPast = days < 0;
+                            final isToday = days == 0;
 
-                        // Generate anniversary list
-                        final anniversaries = _generateAnniversaries(
-                          event.targetDate,
-                        );
+                            // Generate anniversary list
+                            final anniversaries = _generateAnniversaries(
+                              event.targetDate,
+                            );
 
-                        return [
-                          // Sticky Header
-                          SliverPersistentHeader(
-                            pinned: true,
-                            delegate: _SliverAppBarDelegate(
-                              minHeight: 80,
-                              maxHeight: 80,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      spreadRadius: 1,
-                                      blurRadius: 2,
-                                      offset: const Offset(0, 1),
+                            return [
+                              // Sticky Header
+                              SliverPersistentHeader(
+                                pinned: true,
+                                delegate: _SliverAppBarDelegate(
+                                  minHeight: 80,
+                                  maxHeight: 80,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.1),
+                                          spreadRadius: 1,
+                                          blurRadius: 2,
+                                          offset: const Offset(0, 1),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                  child: Center(
-                                    child: SizedBox(
-                                      width: 400,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                        child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundColor: isToday
-                                                  ? Colors.orange
-                                                  : isPast
-                                                  ? Colors.blue
-                                                  : Colors.green,
-                                              child: Icon(
-                                                isToday
-                                                    ? Icons.today
-                                                    : Icons.event_available,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    event.title,
-                                                    style: const TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    _formatDate(event.targetDate),
-                                                    style: TextStyle(
-                                                      color: Colors.grey[600],
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              padding: const EdgeInsets.symmetric(
-                                                horizontal: 12,
-                                                vertical: 6,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                color: isToday
+                                    child: Center(
+                                      child: SizedBox(
+                                        width: 400,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundColor: isToday
                                                     ? Colors.orange
                                                     : isPast
-                                                    ? Colors.blue
-                                                    : Colors.green,
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
-                                              ),
-                                              child: Text(
-                                                isToday
-                                                    ? 'D-DAY'
-                                                    : isPast
-                                                    ? 'D+${days.abs()}'
-                                                    : 'D-${days}',
-                                                style: const TextStyle(
+                                                        ? Colors.blue
+                                                        : Colors.green,
+                                                child: Icon(
+                                                  isToday
+                                                      ? Icons.today
+                                                      : Icons.event_available,
                                                   color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                            ),
-
-                                            IconButton(
-                                              onPressed: () => _removeEvent(index),
-                                              icon: const Icon(
-                                                Icons.delete,
-                                                color: Colors.red,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          // Anniversary Content
-                          SliverToBoxAdapter(
-                            child: Center(
-                              child: SizedBox(
-                                width: 400,
-                                child: Container(
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: BoxDecoration(color: Colors.grey[50]),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        _t('anniversaries'),
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 12),
-                                      Column(
-                                        children: anniversaries.map((anniversary) {
-                                          final anniversaryDays = anniversary
-                                              .getDaysFromNow();
-                                          final isAnniversaryPast =
-                                              anniversaryDays < 0;
-                                          final isAnniversaryToday =
-                                              anniversaryDays == 0;
-
-                                          return Container(
-                                            width: double.infinity,
-                                            margin: const EdgeInsets.only(
-                                              bottom: 4,
-                                            ),
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 8,
-                                              vertical: 6,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(
-                                                8,
-                                              ),
-                                              border: Border.all(
-                                                color: isAnniversaryToday
-                                                    ? Colors.orange
-                                                    : isAnniversaryPast
-                                                    ? Colors.blue
-                                                    : Colors.green,
-                                                width: 1.5,
-                                              ),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey.withOpacity(
-                                                    0.2,
-                                                  ),
-                                                  spreadRadius: 1,
-                                                  blurRadius: 3,
-                                                  offset: const Offset(0, 1),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                              const SizedBox(width: 16),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      anniversary.title,
-                                                      style: TextStyle(
-                                                        fontSize: 16,
+                                                      event.title,
+                                                      style: const TextStyle(
                                                         fontWeight: FontWeight.bold,
-                                                                                                      color: isAnniversaryToday
-                                                        ? Colors.orange
-                                                        : isAnniversaryPast
-                                                        ? Colors.blue[700]
-                                                        : Colors.green[700],
+                                                        fontSize: 16,
                                                       ),
                                                     ),
-                                                    const SizedBox(height: 4),
                                                     Text(
-                                                      _formatDate(
-                                                        anniversary.targetDate,
-                                                      ),
+                                                      _formatDate(event.targetDate),
                                                       style: TextStyle(
-                                                        fontSize: 12,
                                                         color: Colors.grey[600],
+                                                        fontSize: 14,
                                                       ),
                                                     ),
                                                   ],
                                                 ),
-                                                Container(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                        horizontal: 12,
-                                                        vertical: 6,
-                                                      ),
-                                                  decoration: BoxDecoration(
+                                              ),
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 12,
+                                                  vertical: 6,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: isToday
+                                                      ? Colors.orange
+                                                      : isPast
+                                                          ? Colors.blue
+                                                          : Colors.green,
+                                                  borderRadius:
+                                                      BorderRadius.circular(16),
+                                                ),
+                                                child: Text(
+                                                  isToday
+                                                      ? 'D-DAY'
+                                                      : isPast
+                                                          ? 'D+${days.abs()}'
+                                                          : 'D-${days}',
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              IconButton(
+                                                onPressed: () => _removeEvent(index),
+                                                icon: const Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // Anniversary Content
+                              SliverToBoxAdapter(
+                                child: Center(
+                                  child: SizedBox(
+                                    width: 400,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(color: Colors.grey[50]),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            _t('anniversaries'),
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 12),
+                                          Column(
+                                            children: anniversaries.map((anniversary) {
+                                              final anniversaryDays = anniversary
+                                                  .getDaysFromNow();
+                                              final isAnniversaryPast =
+                                                  anniversaryDays < 0;
+                                              final isAnniversaryToday =
+                                                  anniversaryDays == 0;
+
+                                              return Container(
+                                                width: double.infinity,
+                                                margin: const EdgeInsets.only(
+                                                  bottom: 4,
+                                                ),
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 16,
+                                                  vertical: 12,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.circular(
+                                                    8,
+                                                  ),
+                                                  border: Border.all(
                                                     color: isAnniversaryToday
                                                         ? Colors.orange
                                                         : isAnniversaryPast
-                                                        ? Colors.blue[100]
-                                                        : Colors.green[100],
-                                                    borderRadius:
-                                                        BorderRadius.circular(16),
+                                                            ? Colors.blue
+                                                            : Colors.green,
+                                                    width: 1.5,
                                                   ),
-                                                  child: Text(
-                                                    isAnniversaryToday
-                                                        ? "D-DAY"
-                                                        : isAnniversaryPast
-                                                        ? "D+${anniversaryDays.abs()}"
-                                                        : "D-${anniversaryDays}",
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.bold,
-                                                                                                  color: isAnniversaryToday
-                                                      ? Colors.white
-                                                      : isAnniversaryPast
-                                                      ? Colors.blue[700]
-                                                      : Colors.green[700],
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey.withOpacity(
+                                                        0.2,
+                                                      ),
+                                                      spreadRadius: 1,
+                                                      blurRadius: 3,
+                                                      offset: const Offset(0, 1),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                          );
-                                        }).toList(),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          anniversary.title,
+                                                          style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight: FontWeight.bold,
+                                                            color: isAnniversaryToday
+                                                                ? Colors.orange
+                                                                : isAnniversaryPast
+                                                                    ? Colors.blue[700]
+                                                                    : Colors.green[700],
+                                                          ),
+                                                        ),
+                                                        const SizedBox(height: 4),
+                                                        Text(
+                                                          _formatDate(
+                                                            anniversary.targetDate,
+                                                          ),
+                                                          style: TextStyle(
+                                                            fontSize: 12,
+                                                            color: Colors.grey[600],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Container(
+                                                      padding:
+                                                          const EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 6,
+                                                      ),
+                                                      decoration: BoxDecoration(
+                                                        color: isAnniversaryToday
+                                                            ? Colors.orange
+                                                            : isAnniversaryPast
+                                                                ? Colors.blue[100]
+                                                                : Colors.green[100],
+                                                        borderRadius:
+                                                            BorderRadius.circular(16),
+                                                      ),
+                                                      child: Text(
+                                                        isAnniversaryToday
+                                                            ? "D-DAY"
+                                                            : isAnniversaryPast
+                                                                ? "D+${anniversaryDays.abs()}"
+                                                                : "D-${anniversaryDays}",
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.bold,
+                                                          color: isAnniversaryToday
+                                                              ? Colors.white
+                                                              : isAnniversaryPast
+                                                                  ? Colors.blue[700]
+                                                                  : Colors.green[700],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // Add minimal spacing between D-Day items
+                              SliverToBoxAdapter(
+                                child: Container(
+                                  height: 8,
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                            ];
+                          }).toList(),
+                        ),
+                        // Floating scroll down button
+                        if (_events.length > 1)
+                          Positioned(
+                            bottom: 20,
+                            left: 0,
+                            right: 0,
+                            child: Center(
+                              child: AnimatedContainer(
+                                duration: const Duration(seconds: 2),
+                                curve: Curves.easeInOut,
+                                child: Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue.withOpacity(0.8),
+                                    borderRadius: BorderRadius.circular(25),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.2),
+                                        spreadRadius: 2,
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 2),
                                       ),
                                     ],
+                                  ),
+                                  child: const Text(
+                                    '🔽',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          // Add minimal spacing between D-Day items
-                          SliverToBoxAdapter(
-                            child: Container(
-                              height: 8,
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        ];
-                      }).toList(),
+                      ],
                     ),
             ),
           ],
