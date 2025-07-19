@@ -924,6 +924,13 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                               ),
                             ),
                           ),
+                          // Add spacing between D-Day items
+                          SliverToBoxAdapter(
+                            child: Container(
+                              height: 20,
+                              color: Colors.transparent,
+                            ),
+                          ),
                         ];
                       }).toList(),
                     ),
