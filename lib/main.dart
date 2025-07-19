@@ -987,12 +987,10 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                       ],
                                     ),
                                     child: const Center(
-                                      child: Text(
-                                        '🔽',
-                                        style: TextStyle(
-                                          fontSize: 24,
-                                          color: Colors.white,
-                                        ),
+                                      child: Icon(
+                                        Icons.arrow_downward,
+                                        size: 24,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
