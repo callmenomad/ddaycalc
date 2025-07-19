@@ -729,7 +729,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                   ],
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                                   child: Row(
                                     children: [
                                       CircleAvatar(
@@ -795,7 +795,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 0),
+
                                       IconButton(
                                         onPressed: () => _removeEvent(index),
                                         icon: const Icon(
