@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/cupertino.dart';
 
 void main() {
   runApp(const DDayCalculatorApp());
@@ -815,30 +816,162 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
   }
 
   Future<DateTime?> _showCustomDatePicker() async {
-    // Force day selection mode and ensure proper navigation
-    final DateTime? pickedDate = await showDatePicker(
+    DateTime currentDate = selectedDate ?? DateTime.now();
+    int selectedDay = currentDate.day;
+    int selectedMonth = currentDate.month;
+    int selectedYear = currentDate.year;
+    
+    return showCupertinoModalPopup<DateTime>(
       context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2200),
-      locale: _getLocale(),
-      initialDatePickerMode: DatePickerMode.day,
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: Theme.of(context).colorScheme.copyWith(
-              primary: Colors.blue,
-            ),
-            datePickerTheme: Theme.of(context).datePickerTheme.copyWith(
-              headerHelpStyle: const TextStyle(color: Colors.blue),
+      builder: (BuildContext context) {
+        return Container(
+          height: 400,
+          padding: const EdgeInsets.only(top: 6.0),
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          color: CupertinoColors.systemBackground.resolveFrom(context),
+          child: SafeArea(
+            top: false,
+            child: Column(
+              children: [
+                // Header with Cancel and Done buttons
+                Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: CupertinoColors.systemBackground.resolveFrom(context),
+                    border: Border(
+                      bottom: BorderSide(
+                        color: CupertinoColors.separator.resolveFrom(context),
+                        width: 0.5,
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CupertinoButton(
+                        child: Text(_t('cancel')),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      Text(
+                        _t('selectDate'),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      CupertinoButton(
+                        child: Text(_t('done')),
+                        onPressed: () {
+                          Navigator.of(context).pop(
+                            DateTime(selectedYear, selectedMonth, selectedDay),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                // Custom Date Picker
+                Expanded(
+                  child: Row(
+                    children: [
+                      // Day Picker
+                      Expanded(
+                        child: CupertinoPicker(
+                          itemExtent: 40,
+                          scrollController: FixedExtentScrollController(
+                            initialItem: selectedDay - 1,
+                          ),
+                          onSelectedItemChanged: (int index) {
+                            selectedDay = index + 1;
+                          },
+                          children: List.generate(31, (index) {
+                            return Center(
+                              child: Text(
+                                '${index + 1}',
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                      // Month Picker
+                      Expanded(
+                        child: CupertinoPicker(
+                          itemExtent: 40,
+                          scrollController: FixedExtentScrollController(
+                            initialItem: selectedMonth - 1,
+                          ),
+                          onSelectedItemChanged: (int index) {
+                            selectedMonth = index + 1;
+                          },
+                          children: _getMonthNames().map((month) => Center(
+                            child: Text(
+                              month,
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                          )).toList(),
+                        ),
+                      ),
+                      // Year Picker
+                      Expanded(
+                        child: CupertinoPicker(
+                          itemExtent: 40,
+                          scrollController: FixedExtentScrollController(
+                            initialItem: selectedYear - 1900,
+                          ),
+                          onSelectedItemChanged: (int index) {
+                            selectedYear = 1900 + index;
+                          },
+                          children: List.generate(301, (index) {
+                            return Center(
+                              child: Text(
+                                '${1900 + index}',
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
-          child: child!,
         );
       },
     );
+  }
 
-    return pickedDate;
+  List<String> _getMonthNames() {
+    switch (widget.currentLanguage) {
+      case '한국어':
+        return ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+      case '日本語':
+        return ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+      case '中文':
+        return ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+      case 'Español':
+        return ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      case 'Français':
+        return ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+      case 'Português':
+        return ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+      case 'Tiếng Việt':
+        return ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+      case 'Bahasa Indonesia':
+        return ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      case 'ไทย':
+        return ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+      case 'Tagalog':
+        return ['Enero', 'Pebrero', 'Marso', 'Abril', 'Mayo', 'Hunyo', 'Hulyo', 'Agosto', 'Setyembre', 'Oktubre', 'Nobyembre', 'Disyembre'];
+      default:
+        return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    }
   }
 
 
