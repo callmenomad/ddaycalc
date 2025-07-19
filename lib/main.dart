@@ -745,7 +745,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                           color: Colors.white,
                                         ),
                                       ),
-                                      const SizedBox(width: 16),
+                                      const SizedBox(width: 8),
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -795,7 +795,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 8),
+                                      const SizedBox(width: 4),
                                       IconButton(
                                         onPressed: () => _removeEvent(index),
                                         icon: const Icon(
@@ -837,11 +837,11 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                       return Container(
                                         width: double.infinity,
                                         margin: const EdgeInsets.only(
-                                          bottom: 8,
+                                          bottom: 4,
                                         ),
                                         padding: const EdgeInsets.symmetric(
-                                          horizontal: 16,
-                                          vertical: 12,
+                                          horizontal: 12,
+                                          vertical: 8,
                                         ),
                                         decoration: BoxDecoration(
                                           color: Colors.white,
