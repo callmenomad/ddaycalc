@@ -971,22 +971,18 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                               builder: (context, value, child) {
                                 return Transform.translate(
                                   offset: Offset(0, 5 * (value - 0.5)),
-                                  child: Material(
-                                    elevation: 8,
-                                    shape: const CircleBorder(),
-                                    child: Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.lightBlue,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: const Center(
-                                        child: Icon(
-                                          Icons.arrow_downward,
-                                          size: 24,
-                                          color: Colors.white,
-                                        ),
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.blue,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Center(
+                                      child: Icon(
+                                        Icons.keyboard_arrow_down,
+                                        size: 30,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
