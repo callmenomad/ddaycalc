@@ -16,4 +16,11 @@
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200 
+  status = 200
+
+# Handle static files
+[[redirects]]
+  from = "/ads.txt"
+  to = "/ads.txt"
+  status = 200
+  force = true 

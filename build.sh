@@ -25,4 +25,8 @@ flutter pub get
 echo "🔨 Building Flutter web app..."
 flutter build web --release
 
+# Copy ads.txt to build directory
+echo "📄 Copying ads.txt to build directory..."
+cp ads.txt build/web/
+
 echo "✅ Build completed successfully!" 
