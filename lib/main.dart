@@ -813,7 +813,20 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
   }
 
   Future<DateTime?> _showCustomDatePicker() async {
-    // First, show month picker
+    // First, show day picker with current month and year
+    final DateTime? initialDate = selectedDate ?? DateTime.now();
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+      locale: _getLocale(),
+      initialDatePickerMode: DatePickerMode.day,
+    );
+
+    if (pickedDate == null) return null;
+
+    // Then, show month picker
     final int? selectedMonth = await showDialog<int>(
       context: context,
       builder: (BuildContext context) {
@@ -843,9 +856,9 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
       },
     );
 
-    if (selectedMonth == null) return null;
+    if (selectedMonth == null) return pickedDate;
 
-    // Then, show year picker
+    // Finally, show year picker
     final int? selectedYear = await showDialog<int>(
       context: context,
       builder: (BuildContext context) {
@@ -869,19 +882,9 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
       },
     );
 
-    if (selectedYear == null) return null;
+    if (selectedYear == null) return DateTime(pickedDate.year, selectedMonth, pickedDate.day);
 
-    // Finally, show day picker
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime(selectedYear, selectedMonth, 1),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2100),
-      locale: _getLocale(),
-      initialDatePickerMode: DatePickerMode.day,
-    );
-
-    return pickedDate;
+    return DateTime(selectedYear, selectedMonth, pickedDate.day);
   }
 
   String _getMonthSelectionTitle() {
