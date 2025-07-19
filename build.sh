@@ -25,8 +25,10 @@ flutter pub get
 echo "🔨 Building Flutter web app..."
 flutter build web --release
 
-# Copy ads.txt to build directory
-echo "📄 Copying ads.txt to build directory..."
-cp ads.txt build/web/
+# Copy static files to build directory
+echo "📄 Copying static files to build directory..."
+if [ -d "public" ]; then
+    cp -r public/* build/web/
+fi
 
 echo "✅ Build completed successfully!" 
