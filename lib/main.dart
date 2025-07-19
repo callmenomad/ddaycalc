@@ -964,35 +964,40 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                         if (_events.length > 1)
                           Positioned(
                             bottom: 20,
-                            left: 0,
-                            right: 0,
-                            child: Center(
-                              child: AnimatedContainer(
-                                duration: const Duration(seconds: 2),
-                                curve: Curves.easeInOut,
-                                child: Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    color: Colors.blue.withOpacity(0.8),
-                                    borderRadius: BorderRadius.circular(25),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        spreadRadius: 2,
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 2),
+                            right: 20,
+                            child: TweenAnimationBuilder<double>(
+                              tween: Tween(begin: 0.0, end: 1.0),
+                              duration: const Duration(seconds: 2),
+                              builder: (context, value, child) {
+                                return Transform.translate(
+                                  offset: Offset(0, 5 * (value - 0.5)),
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      color: Colors.lightBlue.withOpacity(0.7),
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          spreadRadius: 2,
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    child: const Center(
+                                      child: Text(
+                                        '🔽',
+                                        style: TextStyle(
+                                          fontSize: 24,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                  child: const Text(
-                                    '🔽',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
                                     ),
                                   ),
-                                ),
-                              ),
+                                );
+                              },
                             ),
                           ),
                       ],
