@@ -533,7 +533,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '${_t('dateFormat')}: ${_getDateFormat()}',
+                '${_t('dateFormat')}: ${_getDateFormat()} (${_getInputExamples()})',
                 style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
               const SizedBox(height: 8),
@@ -574,10 +574,16 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
 
   void _parseAndSetDate(String value) {
     try {
-      final date = DateFormat(_getDateFormat()).parse(value);
-      setState(() {
-        selectedDate = date;
-      });
+      // Try multiple date formats based on language
+      DateTime? parsedDate = _parseDateWithMultipleFormats(value);
+      
+      if (parsedDate != null) {
+        setState(() {
+          selectedDate = parsedDate;
+        });
+      } else {
+        throw Exception('Invalid date format');
+      }
     } catch (e) {
       // Show error message or handle invalid date format
       ScaffoldMessenger.of(context).showSnackBar(
@@ -589,9 +595,139 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
     }
   }
 
+  DateTime? _parseDateWithMultipleFormats(String value) {
+    // Remove any non-digit characters
+    String cleanValue = value.replaceAll(RegExp(r'[^\d]'), '');
+    
+    if (cleanValue.isEmpty) return null;
+    
+    // Get the expected format for current language
+    String expectedFormat = _getDateFormat();
+    
+    // Try different parsing strategies based on language
+    switch (widget.currentLanguage) {
+      case 'English':
+      case 'Tagalog':
+        return _parseUSFormat(cleanValue);
+      case '한국어':
+        return _parseKoreanFormat(cleanValue);
+      case '日本語':
+        return _parseJapaneseFormat(cleanValue);
+      case '中文':
+        return _parseChineseFormat(cleanValue);
+      case 'Español':
+      case 'Português':
+      case 'Français':
+      case 'Tiếng Việt':
+      case 'Bahasa Indonesia':
+        return _parseEuropeanFormat(cleanValue);
+      case 'ไทย':
+        return _parseThaiFormat(cleanValue);
+      default:
+        return _parseUSFormat(cleanValue);
+    }
+  }
+
+  DateTime? _parseUSFormat(String value) {
+    // MM/DD/YYYY or MMDDYYYY or MMDDYY
+    if (value.length == 6) {
+      // MMDDYY format
+      int month = int.parse(value.substring(0, 2));
+      int day = int.parse(value.substring(2, 4));
+      int year = 2000 + int.parse(value.substring(4, 6));
+      return DateTime(year, month, day);
+    } else if (value.length == 8) {
+      // MMDDYYYY format
+      int month = int.parse(value.substring(0, 2));
+      int day = int.parse(value.substring(2, 4));
+      int year = int.parse(value.substring(4, 8));
+      return DateTime(year, month, day);
+    }
+    return null;
+  }
+
+  DateTime? _parseEuropeanFormat(String value) {
+    // DD/MM/YYYY or DDMMYYYY or DDMMYY
+    if (value.length == 6) {
+      // DDMMYY format
+      int day = int.parse(value.substring(0, 2));
+      int month = int.parse(value.substring(2, 4));
+      int year = 2000 + int.parse(value.substring(4, 6));
+      return DateTime(year, month, day);
+    } else if (value.length == 8) {
+      // DDMMYYYY format
+      int day = int.parse(value.substring(0, 2));
+      int month = int.parse(value.substring(2, 4));
+      int year = int.parse(value.substring(4, 8));
+      return DateTime(year, month, day);
+    }
+    return null;
+  }
+
+  DateTime? _parseKoreanFormat(String value) {
+    // YYYYMMDD or YYMMDD
+    if (value.length == 6) {
+      // YYMMDD format
+      int year = 2000 + int.parse(value.substring(0, 2));
+      int month = int.parse(value.substring(2, 4));
+      int day = int.parse(value.substring(4, 6));
+      return DateTime(year, month, day);
+    } else if (value.length == 8) {
+      // YYYYMMDD format
+      int year = int.parse(value.substring(0, 4));
+      int month = int.parse(value.substring(4, 6));
+      int day = int.parse(value.substring(6, 8));
+      return DateTime(year, month, day);
+    }
+    return null;
+  }
+
+  DateTime? _parseJapaneseFormat(String value) {
+    // Same as Korean format
+    return _parseKoreanFormat(value);
+  }
+
+  DateTime? _parseChineseFormat(String value) {
+    // Same as Korean format
+    return _parseKoreanFormat(value);
+  }
+
+  DateTime? _parseThaiFormat(String value) {
+    // Try European format first, then US format
+    DateTime? result = _parseEuropeanFormat(value);
+    if (result == null) {
+      result = _parseUSFormat(value);
+    }
+    return result;
+  }
+
   String _getDateFormat() {
     final dateFormat = _dateFormats[widget.currentLanguage];
     return dateFormat?['format'] as String? ?? 'MM/dd/yyyy';
+  }
+
+  String _getInputExamples() {
+    switch (widget.currentLanguage) {
+      case 'English':
+      case 'Tagalog':
+        return '예: 022425, 02242025';
+      case '한국어':
+        return '예: 250224, 20250224';
+      case '日本語':
+        return '예: 250224, 20250224';
+      case '中文':
+        return '예: 250224, 20250224';
+      case 'Español':
+      case 'Português':
+      case 'Français':
+      case 'Tiếng Việt':
+      case 'Bahasa Indonesia':
+        return '예: 240225, 24022025';
+      case 'ไทย':
+        return '예: 240225, 24022025 또는 022425, 02242025';
+      default:
+        return '예: 022425, 02242025';
+    }
   }
 
   @override
@@ -753,6 +889,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                   firstDate: DateTime(1900),
                                   lastDate: DateTime(2100),
                                   locale: _getLocale(),
+                                  initialDatePickerMode: DatePickerMode.day,
                                 );
                                 if (date != null) {
                                   setState(() {
