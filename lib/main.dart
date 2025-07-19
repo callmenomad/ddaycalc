@@ -75,76 +75,111 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
   };
 
   final Map<String, Map<String, String>> _translations = {
-    'English': {
-      'appTitle': 'D-DAY CALCULATOR',
-      'addNewDday': 'Add New D-Day',
-      'title': 'Title',
-      'selectDate': 'Select Date',
-      'create': 'Create',
-      'addDdayEvent': 'Add a D-Day event!',
-      'anniversaries': 'Anniversaries',
-      'delete': 'Delete',
-    },
-    '한국어': {
-      'appTitle': '디데이 계산기',
-      'addNewDday': '새 디데이 추가',
-      'title': '제목',
-      'selectDate': '날짜 선택',
-      'create': '생성',
-      'addDdayEvent': '디데이를 추가해보세요!',
-      'anniversaries': '기념일',
-      'delete': '삭제',
-    },
-    '日本語': {
-      'appTitle': 'D-DAY計算機',
-      'addNewDday': '新しいD-DAYを追加',
-      'title': 'タイトル',
-      'selectDate': '日付を選択',
-      'create': '作成',
-      'addDdayEvent': 'D-DAYイベントを追加してください！',
-      'anniversaries': '記念日',
-      'delete': '削除',
-    },
-    '中文': {
-      'appTitle': 'D日计算器',
-      'addNewDday': '添加新的D日',
-      'title': '标题',
-      'selectDate': '选择日期',
-      'create': '创建',
-      'addDdayEvent': '添加一个D日事件！',
-      'anniversaries': '纪念日',
-      'delete': '删除',
-    },
-    'Español': {
-      'appTitle': 'CALCULADORA D-DAY',
-      'addNewDday': 'Agregar Nuevo D-Day',
-      'title': 'Título',
-      'selectDate': 'Seleccionar Fecha',
-      'create': 'Crear',
-      'addDdayEvent': '¡Agrega un evento D-Day!',
-      'anniversaries': 'Aniversarios',
-      'delete': 'Eliminar',
-    },
-    'Português': {
-      'appTitle': 'CALCULADORA D-DAY',
-      'addNewDday': 'Adicionar Novo D-Day',
-      'title': 'Título',
-      'selectDate': 'Selecionar Data',
-      'create': 'Criar',
-      'addDdayEvent': 'Adicione um evento D-Day!',
-      'anniversaries': 'Aniversários',
-      'delete': 'Excluir',
-    },
-    'Français': {
-      'appTitle': 'CALCULATRICE D-DAY',
-      'addNewDday': 'Ajouter un Nouveau D-Day',
-      'title': 'Titre',
-      'selectDate': 'Sélectionner la Date',
-      'create': 'Créer',
-      'addDdayEvent': 'Ajoutez un événement D-Day !',
-      'anniversaries': 'Anniversaires',
-      'delete': 'Supprimer',
-    },
+          'English': {
+        'appTitle': 'D-DAY CALCULATOR',
+        'addNewDday': 'Add New D-Day',
+        'title': 'Title',
+        'selectDate': 'Select Date',
+        'create': 'Create',
+        'addDdayEvent': 'Add a D-Day event!',
+        'anniversaries': 'Anniversaries',
+        'delete': 'Delete',
+        'switchToInput': 'Switch to Input',
+        'cancel': 'Cancel',
+        'ok': 'OK',
+        'dateFormat': 'Date Format',
+        'invalidDate': 'Invalid date format',
+      },
+          '한국어': {
+        'appTitle': '디데이 계산기',
+        'addNewDday': '새 디데이 추가',
+        'title': '제목',
+        'selectDate': '날짜 선택',
+        'create': '생성',
+        'addDdayEvent': '디데이를 추가해보세요!',
+        'anniversaries': '기념일',
+        'delete': '삭제',
+        'switchToInput': '입력으로 전환',
+        'cancel': '취소',
+        'ok': '확인',
+        'dateFormat': '날짜 형식',
+        'invalidDate': '잘못된 날짜 형식',
+      },
+          '日本語': {
+        'appTitle': 'D-DAY計算機',
+        'addNewDday': '新しいD-DAYを追加',
+        'title': 'タイトル',
+        'selectDate': '日付を選択',
+        'create': '作成',
+        'addDdayEvent': 'D-DAYイベントを追加してください！',
+        'anniversaries': '記念日',
+        'delete': '削除',
+        'switchToInput': '入力に切り替え',
+        'cancel': 'キャンセル',
+        'ok': 'OK',
+        'dateFormat': '日付形式',
+        'invalidDate': '無効な日付形式',
+      },
+          '中文': {
+        'appTitle': 'D日计算器',
+        'addNewDday': '添加新的D日',
+        'title': '标题',
+        'selectDate': '选择日期',
+        'create': '创建',
+        'addDdayEvent': '添加一个D日事件！',
+        'anniversaries': '纪念日',
+        'delete': '删除',
+        'switchToInput': '切换到输入',
+        'cancel': '取消',
+        'ok': '确定',
+        'dateFormat': '日期格式',
+        'invalidDate': '无效的日期格式',
+      },
+          'Español': {
+        'appTitle': 'CALCULADORA D-DAY',
+        'addNewDday': 'Agregar Nuevo D-Day',
+        'title': 'Título',
+        'selectDate': 'Seleccionar Fecha',
+        'create': 'Crear',
+        'addDdayEvent': '¡Agrega un evento D-Day!',
+        'anniversaries': 'Aniversarios',
+        'delete': 'Eliminar',
+        'switchToInput': 'Cambiar a entrada',
+        'cancel': 'Cancelar',
+        'ok': 'Aceptar',
+        'dateFormat': 'Formato de fecha',
+        'invalidDate': 'Formato de fecha inválido',
+      },
+          'Português': {
+        'appTitle': 'CALCULADORA D-DAY',
+        'addNewDday': 'Adicionar Novo D-Day',
+        'title': 'Título',
+        'selectDate': 'Selecionar Data',
+        'create': 'Criar',
+        'addDdayEvent': 'Adicione um evento D-Day!',
+        'anniversaries': 'Aniversários',
+        'delete': 'Excluir',
+        'switchToInput': 'Alternar para entrada',
+        'cancel': 'Cancelar',
+        'ok': 'OK',
+        'dateFormat': 'Formato de data',
+        'invalidDate': 'Formato de data inválido',
+      },
+          'Français': {
+        'appTitle': 'CALCULATRICE D-DAY',
+        'addNewDday': 'Ajouter un Nouveau D-Day',
+        'title': 'Titre',
+        'selectDate': 'Sélectionner la Date',
+        'create': 'Créer',
+        'addDdayEvent': 'Ajoutez un événement D-Day !',
+        'anniversaries': 'Anniversaires',
+        'delete': 'Supprimer',
+        'switchToInput': 'Basculer vers l\'entrée',
+        'cancel': 'Annuler',
+        'ok': 'OK',
+        'dateFormat': 'Format de date',
+        'invalidDate': 'Format de date invalide',
+      },
     'Tiếng Việt': {
       'appTitle': 'MÁY TÍNH D-DAY',
       'addNewDday': 'Thêm D-Day Mới',
@@ -154,6 +189,11 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
       'addDdayEvent': 'Thêm một sự kiện D-Day!',
       'anniversaries': 'Kỷ niệm',
       'delete': 'Xóa',
+      'switchToInput': 'Chuyển sang nhập',
+      'cancel': 'Hủy',
+      'ok': 'OK',
+      'dateFormat': 'Định dạng ngày',
+      'invalidDate': 'Định dạng ngày không hợp lệ',
     },
     'ไทย': {
       'appTitle': 'เครื่องคำนวณ D-DAY',
@@ -164,6 +204,11 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
       'addDdayEvent': 'เพิ่มเหตุการณ์ D-Day!',
       'anniversaries': 'วันครบรอบ',
       'delete': 'ลบ',
+      'switchToInput': 'เปลี่ยนเป็นการป้อนข้อมูล',
+      'cancel': 'ยกเลิก',
+      'ok': 'ตกลง',
+      'dateFormat': 'รูปแบบวันที่',
+      'invalidDate': 'รูปแบบวันที่ไม่ถูกต้อง',
     },
     'Tagalog': {
       'appTitle': 'D-DAY CALCULATOR',
@@ -174,6 +219,11 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
       'addDdayEvent': 'Magdagdag ng D-Day event!',
       'anniversaries': 'Mga Anibersaryo',
       'delete': 'Tanggalin',
+      'switchToInput': 'I-switch sa pag-input',
+      'cancel': 'Kanselahin',
+      'ok': 'OK',
+      'dateFormat': 'Format ng Petsa',
+      'invalidDate': 'Hindi wastong format ng petsa',
     },
     'Bahasa Indonesia': {
       'appTitle': 'KALKULATOR D-DAY',
@@ -184,6 +234,11 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
       'addDdayEvent': 'Tambahkan acara D-Day!',
       'anniversaries': 'Hari Jadi',
       'delete': 'Hapus',
+      'switchToInput': 'Beralih ke input',
+      'cancel': 'Batal',
+      'ok': 'OK',
+      'dateFormat': 'Format Tanggal',
+      'invalidDate': 'Format tanggal tidak valid',
     },
   };
 
@@ -451,6 +506,89 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
     }
   }
 
+  String _formatDateForDisplay(DateTime date) {
+    final dateFormat = _dateFormats[widget.currentLanguage];
+    if (dateFormat == null) {
+      return _formatDate(date); // Fallback to default format
+    }
+    final format = dateFormat['format'] as String;
+    return DateFormat(format).format(date);
+  }
+
+  Locale _getLocale() {
+    return _languages[widget.currentLanguage] ?? const Locale('en');
+  }
+
+  void _showDateInputDialog() {
+    final TextEditingController dateController = TextEditingController(
+      text: selectedDate != null ? _formatDateForDisplay(selectedDate!) : '',
+    );
+    
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(_t('selectDate')),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '${_t('dateFormat')}: ${_getDateFormat()}',
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: dateController,
+                keyboardType: TextInputType.datetime,
+                decoration: InputDecoration(
+                  hintText: _getDateFormat(),
+                  labelText: _t('selectDate'),
+                  border: const OutlineInputBorder(),
+                ),
+                onSubmitted: (String value) {
+                  _parseAndSetDate(value);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(_t('cancel')),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(_t('ok')),
+              onPressed: () {
+                _parseAndSetDate(dateController.text);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _parseAndSetDate(String value) {
+    try {
+      final date = DateFormat(_getDateFormat()).parse(value);
+      setState(() {
+        selectedDate = date;
+      });
+    } catch (e) {
+      // Show error message or handle invalid date format
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${_t('invalidDate')}: ${_getDateFormat()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   String _getDateFormat() {
     final dateFormat = _dateFormats[widget.currentLanguage];
     return dateFormat?['format'] as String? ?? 'MM/dd/yyyy';
@@ -604,53 +742,68 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                     const SizedBox(height: 20),
                     SizedBox(
                       width: 400,
-                      child: InkWell(
-                        onTap: () async {
-                          final date = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime(2100),
-                          );
-                          if (date != null) {
-                            setState(() {
-                              selectedDate = date;
-                            });
-                          }
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Stack(
-                            children: [
-                              // Calendar icon positioned on the left
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                bottom: 0,
-                                child: const Icon(Icons.calendar_month),
-                              ),
-                              // Text centered in the container
-                              Center(
-                                child: Text(
-                                  selectedDate != null
-                                      ? DateFormat(
-                                          _getDateFormat(),
-                                        ).format(selectedDate!)
-                                      : _t('selectDate'),
-                                  style: TextStyle(
-                                    color: selectedDate != null
-                                        ? Colors.black
-                                        : Colors.grey,
-                                  ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: () async {
+                                final date = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1900),
+                                  lastDate: DateTime(2100),
+                                  locale: _getLocale(),
+                                );
+                                if (date != null) {
+                                  setState(() {
+                                    selectedDate = date;
+                                  });
+                                }
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Stack(
+                                  children: [
+                                    // Calendar icon positioned on the left
+                                    Positioned(
+                                      left: 0,
+                                      top: 0,
+                                      bottom: 0,
+                                      child: const Icon(Icons.calendar_month),
+                                    ),
+                                    // Text centered in the container
+                                    Center(
+                                      child: Text(
+                                        selectedDate != null
+                                            ? _formatDateForDisplay(selectedDate!)
+                                            : _t('selectDate'),
+                                        style: TextStyle(
+                                          color: selectedDate != null
+                                              ? Colors.black
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                          const SizedBox(width: 8),
+                          ElevatedButton(
+                            onPressed: () {
+                              _showDateInputDialog();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                            ),
+                            child: Text(_t('switchToInput')),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 20),
