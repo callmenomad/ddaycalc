@@ -728,30 +728,46 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                     ),
                                   ],
                                 ),
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundColor: isToday
-                                        ? Colors.orange
-                                        : isPast
-                                        ? Colors.blue
-                                        : Colors.green,
-                                    child: Icon(
-                                      isToday
-                                          ? Icons.today
-                                          : Icons.event_available,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  title: Text(
-                                    event.title,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  subtitle: Text(_formatDate(event.targetDate)),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                  child: Row(
                                     children: [
+                                      CircleAvatar(
+                                        backgroundColor: isToday
+                                            ? Colors.orange
+                                            : isPast
+                                            ? Colors.blue
+                                            : Colors.green,
+                                        child: Icon(
+                                          isToday
+                                              ? Icons.today
+                                              : Icons.event_available,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 16),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              event.title,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                            Text(
+                                              _formatDate(event.targetDate),
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                       Container(
                                         padding: const EdgeInsets.symmetric(
                                           horizontal: 12,
@@ -924,10 +940,10 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                               ),
                             ),
                           ),
-                          // Add spacing between D-Day items
+                          // Add minimal spacing between D-Day items
                           SliverToBoxAdapter(
                             child: Container(
-                              height: 20,
+                              height: 8,
                               color: Colors.transparent,
                             ),
                           ),
