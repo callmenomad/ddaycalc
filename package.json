@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "D-Day Calculator Flutter Web App",
   "scripts": {
-    "build": "flutter build web --release",
-    "deploy": "flutter build web --release"
+    "build": "bash build.sh",
+    "deploy": "bash build.sh"
   },
   "engines": {
     "node": "18.x"
