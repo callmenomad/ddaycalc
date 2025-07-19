@@ -710,23 +710,27 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
     switch (widget.currentLanguage) {
       case 'English':
       case 'Tagalog':
-        return '예: 022425, 02242025';
+        return 'e.g.: 022425, 02242025';
       case '한국어':
         return '예: 250224, 20250224';
       case '日本語':
-        return '예: 250224, 20250224';
+        return '例: 250224, 20250224';
       case '中文':
-        return '예: 250224, 20250224';
+        return '例如: 250224, 20250224';
       case 'Español':
+        return 'ej.: 240225, 24022025';
       case 'Português':
+        return 'ex.: 240225, 24022025';
       case 'Français':
+        return 'ex.: 240225, 24022025';
       case 'Tiếng Việt':
+        return 'vd.: 240225, 24022025';
       case 'Bahasa Indonesia':
-        return '예: 240225, 24022025';
+        return 'mis.: 240225, 24022025';
       case 'ไทย':
-        return '예: 240225, 24022025 또는 022425, 02242025';
+        return 'เช่น: 240225, 24022025 หรือ 022425, 02242025';
       default:
-        return '예: 022425, 02242025';
+        return 'e.g.: 022425, 02242025';
     }
   }
 
