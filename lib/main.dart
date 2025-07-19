@@ -694,13 +694,10 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                       ),
                     )
                   : CustomScrollView(
-                      slivers: () {
-                        final sortedEntries = _events
-                            .asMap()
-                            .entries
-                            .toList()
-                            ..sort((a, b) => a.value.getDaysFromNow().compareTo(b.value.getDaysFromNow()));
-                        return sortedEntries.expand((entry) {
+                      slivers: _events
+                          .asMap()
+                          .entries
+                          .expand((entry) {
                         final index = entry.key;
                         final event = entry.value;
                         final days = event.getDaysFromNow();
@@ -741,14 +738,12 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                     child: Icon(
                                       isToday
                                           ? Icons.today
-                                          : isPast
-                                          ? Icons.check_circle
                                           : Icons.event_available,
                                       color: Colors.white,
                                     ),
                                   ),
                                   title: Text(
-                                    "${_events.indexOf(event) + 1}. ${event.title}",
+                                    event.title,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -930,8 +925,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                             ),
                           ),
                         ];
-                      }).toList();
-                      }(),
+                      }).toList(),
                     ),
             ),
           ],
