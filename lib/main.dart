@@ -971,26 +971,22 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                               builder: (context, value, child) {
                                 return Transform.translate(
                                   offset: Offset(0, 5 * (value - 0.5)),
-                                  child: Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      color: Colors.lightBlue.withOpacity(0.7),
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.2),
-                                          spreadRadius: 2,
-                                          blurRadius: 8,
-                                          offset: const Offset(0, 2),
+                                  child: Material(
+                                    elevation: 8,
+                                    shape: const CircleBorder(),
+                                    child: Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.lightBlue,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const Center(
+                                        child: Icon(
+                                          Icons.arrow_downward,
+                                          size: 24,
+                                          color: Colors.white,
                                         ),
-                                      ],
-                                    ),
-                                    child: const Center(
-                                      child: Icon(
-                                        Icons.arrow_downward,
-                                        size: 24,
-                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
