@@ -815,7 +815,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
   }
 
   Future<DateTime?> _showCustomDatePicker() async {
-    // Use the default showDatePicker with proper navigation
+    // Force day selection mode and ensure proper navigation
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate ?? DateTime.now(),
@@ -828,6 +828,9 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
           data: Theme.of(context).copyWith(
             colorScheme: Theme.of(context).colorScheme.copyWith(
               primary: Colors.blue,
+            ),
+            datePickerTheme: Theme.of(context).datePickerTheme.copyWith(
+              headerHelpStyle: const TextStyle(color: Colors.blue),
             ),
           ),
           child: child!,
