@@ -729,7 +729,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                   ],
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                   child: Row(
                                     children: [
                                       CircleAvatar(
@@ -745,7 +745,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                           color: Colors.white,
                                         ),
                                       ),
-                                      const SizedBox(width: 8),
+                                      const SizedBox(width: 4),
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -812,7 +812,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                           // Anniversary Content
                           SliverToBoxAdapter(
                             child: Container(
-                              padding: const EdgeInsets.all(16),
+                              padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(color: Colors.grey[50]),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -840,8 +840,8 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                           bottom: 4,
                                         ),
                                         padding: const EdgeInsets.symmetric(
-                                          horizontal: 12,
-                                          vertical: 8,
+                                          horizontal: 8,
+                                          vertical: 6,
                                         ),
                                         decoration: BoxDecoration(
                                           color: Colors.white,
