@@ -508,12 +508,57 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
   }
 
   String _formatDateForDisplay(DateTime date) {
-    final dateFormat = _dateFormats[widget.currentLanguage];
-    if (dateFormat == null) {
-      return _formatDate(date); // Fallback to default format
+    switch (widget.currentLanguage) {
+      case '한국어':
+        return '${date.year}년 ${date.month}월 ${date.day}일';
+      case '日本語':
+        return '${date.year}年${date.month}月${date.day}日';
+      case '中文':
+        return '${date.year}年${date.month}月${date.day}日';
+      case 'Español':
+        return '${date.day} de ${_getMonthName(date.month)} de ${date.year}';
+      case 'Français':
+        return '${date.day} ${_getMonthName(date.month)} ${date.year}';
+      case 'Português':
+        return '${date.day} de ${_getMonthName(date.month)} de ${date.year}';
+      case 'Tiếng Việt':
+        return '${date.day} tháng ${date.month} năm ${date.year}';
+      case 'Bahasa Indonesia':
+        return '${date.day} ${_getMonthName(date.month)} ${date.year}';
+      case 'ไทย':
+        return '${date.day} ${_getMonthName(date.month)} ${date.year + 543}'; // Buddhist calendar
+      case 'Tagalog':
+        return '${_getMonthName(date.month)} ${date.day}, ${date.year}';
+      default:
+        return '${_getMonthName(date.month)} ${date.day}, ${date.year}';
     }
-    final format = dateFormat['format'] as String;
-    return DateFormat(format).format(date);
+  }
+
+  String _getMonthName(int month) {
+    switch (widget.currentLanguage) {
+      case '한국어':
+        return ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'][month - 1];
+      case '日本語':
+        return ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'][month - 1];
+      case '中文':
+        return ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'][month - 1];
+      case 'Español':
+        return ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'][month - 1];
+      case 'Français':
+        return ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'][month - 1];
+      case 'Português':
+        return ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'][month - 1];
+      case 'Tiếng Việt':
+        return ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'][month - 1];
+      case 'Bahasa Indonesia':
+        return ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'][month - 1];
+      case 'ไทย':
+        return ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'][month - 1];
+      case 'Tagalog':
+        return ['Enero', 'Pebrero', 'Marso', 'Abril', 'Mayo', 'Hunyo', 'Hulyo', 'Agosto', 'Setyembre', 'Oktubre', 'Nobyembre', 'Disyembre'][month - 1];
+      default:
+        return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][month - 1];
+    }
   }
 
   Locale _getLocale() {
