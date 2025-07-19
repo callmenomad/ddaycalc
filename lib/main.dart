@@ -90,6 +90,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
         'ok': 'OK',
         'dateFormat': 'Date Format',
         'invalidDate': 'Invalid date format',
+        'done': 'Done',
       },
           '한국어': {
         'appTitle': '디데이 계산기',
@@ -105,6 +106,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
         'ok': '확인',
         'dateFormat': '날짜 형식',
         'invalidDate': '잘못된 날짜 형식',
+        'done': '완료',
       },
           '日本語': {
         'appTitle': 'D-DAY計算機',
@@ -120,6 +122,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
         'ok': 'OK',
         'dateFormat': '日付形式',
         'invalidDate': '無効な日付形式',
+        'done': '完了',
       },
           '中文': {
         'appTitle': 'D日计算器',
@@ -135,6 +138,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
         'ok': '确定',
         'dateFormat': '日期格式',
         'invalidDate': '无效的日期格式',
+        'done': '完成',
       },
           'Español': {
         'appTitle': 'CALCULADORA D-DAY',
@@ -150,6 +154,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
         'ok': 'Aceptar',
         'dateFormat': 'Formato de fecha',
         'invalidDate': 'Formato de fecha inválido',
+        'done': 'Hecho',
       },
           'Português': {
         'appTitle': 'CALCULADORA D-DAY',
@@ -165,6 +170,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
         'ok': 'OK',
         'dateFormat': 'Formato de data',
         'invalidDate': 'Formato de data inválido',
+        'done': 'Feito',
       },
           'Français': {
         'appTitle': 'CALCULATRICE D-DAY',
@@ -180,6 +186,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
         'ok': 'OK',
         'dateFormat': 'Format de date',
         'invalidDate': 'Format de date invalide',
+        'done': 'Terminé',
       },
     'Tiếng Việt': {
       'appTitle': 'MÁY TÍNH D-DAY',
@@ -195,6 +202,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
       'ok': 'OK',
       'dateFormat': 'Định dạng ngày',
       'invalidDate': 'Định dạng ngày không hợp lệ',
+      'done': 'Xong',
     },
     'ไทย': {
       'appTitle': 'เครื่องคำนวณ D-DAY',
@@ -210,6 +218,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
       'ok': 'ตกลง',
       'dateFormat': 'รูปแบบวันที่',
       'invalidDate': 'รูปแบบวันที่ไม่ถูกต้อง',
+      'done': 'เสร็จแล้ว',
     },
     'Tagalog': {
       'appTitle': 'D-DAY CALCULATOR',
@@ -225,6 +234,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
       'ok': 'OK',
       'dateFormat': 'Format ng Petsa',
       'invalidDate': 'Hindi wastong format ng petsa',
+      'done': 'Tapos na',
     },
     'Bahasa Indonesia': {
       'appTitle': 'KALKULATOR D-DAY',
@@ -240,6 +250,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
       'ok': 'OK',
       'dateFormat': 'Format Tanggal',
       'invalidDate': 'Format tanggal tidak valid',
+      'done': 'Selesai',
     },
   };
 
@@ -447,6 +458,24 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
 
   String _t(String key) {
     return _translations[widget.currentLanguage]?[key] ?? key;
+  }
+
+  String _getCapitalizedSelectDate() {
+    String selectDateText = _t('selectDate');
+    
+    // 한국어, 일본어, 중국어는 그대로 유지
+    if (widget.currentLanguage == '한국어' || 
+        widget.currentLanguage == '日本語' || 
+        widget.currentLanguage == '中文') {
+      return selectDateText;
+    }
+    
+    // 다른 언어들은 첫 글자를 대문자로 변경
+    if (selectDateText.isNotEmpty) {
+      return selectDateText[0].toUpperCase() + selectDateText.substring(1);
+    }
+    
+    return selectDateText;
   }
 
   String _formatDate(DateTime date) {
@@ -901,11 +930,19 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                           Navigator.of(context).pop();
                         },
                       ),
-                      Text(
-                        _t('selectDate'),
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          _getCapitalizedSelectDate(),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).primaryColor,
+                          ),
                         ),
                       ),
                       CupertinoButton(
