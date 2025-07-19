@@ -694,12 +694,13 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                       ),
                     )
                   : CustomScrollView(
-                      slivers: _events
-                          .asMap()
-                          .entries
-                          .toList()
-                          ..sort((a, b) => a.value.getDaysFromNow().compareTo(b.value.getDaysFromNow()))
-                          .expand((entry) {
+                      slivers: () {
+                        final sortedEntries = _events
+                            .asMap()
+                            .entries
+                            .toList()
+                            ..sort((a, b) => a.value.getDaysFromNow().compareTo(b.value.getDaysFromNow()));
+                        return sortedEntries.expand((entry) {
                         final index = entry.key;
                         final event = entry.value;
                         final days = event.getDaysFromNow();
@@ -897,7 +898,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                                 color: isAnniversaryToday
                                                     ? Colors.orange
                                                     : isAnniversaryPast
-                                                    ? Colors.red[100]
+                                                    ? Colors.blue[100]
                                                     : Colors.green[100],
                                                 borderRadius:
                                                     BorderRadius.circular(16),
@@ -911,11 +912,11 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold,
-                                                  color: isAnniversaryToday
-                                                      ? Colors.white
-                                                      : isAnniversaryPast
-                                                      ? Colors.red[700]
-                                                      : Colors.green[700],
+                                                                                                  color: isAnniversaryToday
+                                                    ? Colors.white
+                                                    : isAnniversaryPast
+                                                    ? Colors.blue[700]
+                                                    : Colors.green[700],
                                                 ),
                                               ),
                                             ),
@@ -929,7 +930,8 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                             ),
                           ),
                         ];
-                      }).toList(),
+                      }).toList();
+                      }(),
                     ),
             ),
           ],
