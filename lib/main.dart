@@ -694,7 +694,12 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                       ),
                     )
                   : CustomScrollView(
-                      slivers: _events.asMap().entries.expand((entry) {
+                      slivers: _events
+                          .asMap()
+                          .entries
+                          .toList()
+                          ..sort((a, b) => a.value.getDaysFromNow().compareTo(b.value.getDaysFromNow()))
+                          .expand((entry) {
                         final index = entry.key;
                         final event = entry.value;
                         final days = event.getDaysFromNow();
@@ -730,19 +735,19 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                     backgroundColor: isToday
                                         ? Colors.orange
                                         : isPast
-                                        ? Colors.red
+                                        ? Colors.blue
                                         : Colors.green,
                                     child: Icon(
                                       isToday
                                           ? Icons.today
                                           : isPast
-                                          ? Icons.event_busy
+                                          ? Icons.check_circle
                                           : Icons.event_available,
                                       color: Colors.white,
                                     ),
                                   ),
                                   title: Text(
-                                    event.title,
+                                    "${_events.indexOf(event) + 1}. ${event.title}",
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -760,7 +765,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                           color: isToday
                                               ? Colors.orange
                                               : isPast
-                                              ? Colors.red
+                                              ? Colors.blue
                                               : Colors.green,
                                           borderRadius: BorderRadius.circular(
                                             16,
@@ -835,7 +840,7 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                             color: isAnniversaryToday
                                                 ? Colors.orange
                                                 : isAnniversaryPast
-                                                ? Colors.red
+                                                ? Colors.blue
                                                 : Colors.green,
                                             width: 1.5,
                                           ),
@@ -863,11 +868,11 @@ class _DDayCalculatorPageState extends State<DDayCalculatorPage> {
                                                   style: TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.bold,
-                                                    color: isAnniversaryToday
-                                                        ? Colors.orange
-                                                        : isAnniversaryPast
-                                                        ? Colors.red[700]
-                                                        : Colors.green[700],
+                                                                                                      color: isAnniversaryToday
+                                                      ? Colors.orange
+                                                      : isAnniversaryPast
+                                                      ? Colors.blue[700]
+                                                      : Colors.green[700],
                                                   ),
                                                 ),
                                                 const SizedBox(height: 4),
